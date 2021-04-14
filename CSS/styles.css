@@ -1,0 +1,8 @@
+/* Game container */
+.container{
+    margin: 2% auto;
+    height: 90vh;
+    width: 95vw;
+    /* border: black solid; */
+    box-shadow: rgba(0, 0, 0, 1) 0px 22px 100px 4px;
+}
