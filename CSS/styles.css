@@ -1,13 +1,12 @@
 /* Game container */
 .container{
-    margin: 2% auto;
-    height: 90vh;
-    width: 95vw;
+    margin: 4% auto;
+    height: 80vh;
+    width: 85vw;
     /* border: black solid; */
     box-shadow: rgba(0, 0, 0, 1) 0px 22px 100px 4px;
+    /* sets the canvas to the middle of the div at all times */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }   
-    /* canvas set to full height and width of container */
-    canvas{
-        height: 100%;
-        width: 100%;
-    }
