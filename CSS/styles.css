@@ -4,3 +4,6 @@ canvas{
     display: flex;
     justify-self: center;
 }
+img{
+    display: none;
+}

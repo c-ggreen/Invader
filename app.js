@@ -8,6 +8,9 @@ const screenHeight = canvas.height
 
 ctx.clearRect(0,0,screenWidth,screenHeight)
 
+// images-----
+let playerIcon = document.getElementById('playerIcon');
+
 
 // PLAYER CREATION START------------------------------
 class Player {
@@ -24,21 +27,36 @@ class Player {
         }
     }
     drawPlayer(ctx){
-        ctx.fillStyle = '#F46036'
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        ctx.drawImage(playerIcon,this.position.x, this.position.y, this.width, this.height);
     }
 
     update(deltaTime){
         if(!deltaTime) return;
         // moves 5 pixels per second
-        this.position.x += 5/deltaTime
+        this.position.x += 1/deltaTime
 
         // update for moveLeft
         this.position.x += this.speed;
+        
+        // stops player from moving offscreen to the left
+        if(this.position.x < 0){
+            this.position.x = 0
+        }
+        // stops player from moving offscreen to the right
+        if(this.position.x + this.width > screenWidth){
+            this.position.x = screenWidth - this.width
+        }
     }
 
     moveLeft(){
         this.speed = -this.maxSpeed
+    }
+    moveRight(){
+        this.speed = this.maxSpeed
+    }
+
+    stop(){
+        this.speed = 0
     }
 }
 
@@ -55,12 +73,33 @@ class InputHandler{
     constructor(player){
         // event listener for keydown event
         document.addEventListener('keydown', event =>{
-            switch(event.keyCode){
-                case 37:
+            switch(event.key){
+                case 'ArrowLeft':
                     player.moveLeft();
                     break;
-                case 39:
-                    alert('move right');
+                case 'ArrowRight':
+                    player.moveRight();
+                    break;
+                
+            }
+
+        })
+
+        document.addEventListener('keyup', event =>{
+            switch(event.key){
+                case 'ArrowLeft':
+                    // makes stopping seamless/removes stuttering
+                    // if a player is moving left then stop
+                    if(player.speed < 0){
+                        player.stop
+                    };
+                    break;
+                case 'ArrowRight':
+                    // makes stopping seamless/removes stuttering
+                    // if a player is moving right then stop
+                    if(player.speed > 0){
+                        player.stop
+                    };
                     break;
                 
             }
