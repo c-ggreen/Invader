@@ -18,7 +18,7 @@ class Player {
         this.width = 50;
         this.height = 50;
 
-        this.maxSpeed = 5;
+        this.maxSpeed = 8;
         this.speed = 0;
 
         this.position = {
@@ -32,8 +32,6 @@ class Player {
 
     update(deltaTime){
         if(!deltaTime) return;
-        // moves 5 pixels per second
-        this.position.x += 1/deltaTime
 
         // update for moveLeft
         this.position.x += this.speed;
@@ -91,14 +89,14 @@ class InputHandler{
                     // makes stopping seamless/removes stuttering
                     // if a player is moving left then stop
                     if(player.speed < 0){
-                        player.stop
+                        player.stop()
                     };
                     break;
                 case 'ArrowRight':
                     // makes stopping seamless/removes stuttering
                     // if a player is moving right then stop
                     if(player.speed > 0){
-                        player.stop
+                        player.stop()
                     };
                     break;
                 
