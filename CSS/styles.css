@@ -1,12 +1,6 @@
-/* Game container */
-.container{
-    margin: 4% auto;
-    height: 80vh;
-    width: 85vw;
-    /* border: black solid; */
-    box-shadow: rgba(0, 0, 0, 1) 0px 22px 100px 4px;
-    /* sets the canvas to the middle of the div at all times */
+canvas{
+    box-shadow: rgba(0, 0, 0, 10) 0px 22px 200px 4px;
+    margin: 2% auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
-}   
+    justify-self: center;
+}

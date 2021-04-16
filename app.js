@@ -1,49 +1,101 @@
-// selecting the canvas element and container in html
 const canvas = document.querySelector('canvas')
-const container = document.querySelector('.container')
+ctx = canvas.getContext('2d')
 
-// makes the canvas dimensions(height,width) relative to the container dimensions
-canvas.width = container.clientWidth
-canvas.height = container.clientHeight
+canvas.width = innerWidth*.8
+canvas.height = innerHeight*.8
+const screenWidth = canvas.width
+const screenHeight = canvas.height
 
-// selecting canvas context will give the ability to draw on the canvas/put artwork on it
-const context = canvas.getContext('2d')
-console.log(context);
-
+ctx.clearRect(0,0,screenWidth,screenHeight)
 
 
-// creating a class for the player
-class Player{
-    // constructor allows for custom player creation
-    constructor(xpos, ypos, radius, color){
-        this.xpos = xpos
-        this.ypos = ypos
-        this.radius = radius
-        this.color = color
+// PLAYER CREATION START------------------------------
+class Player {
+    constructor(screenWidth, screenHeight){
+        this.width = 50;
+        this.height = 50;
+
+        this.maxSpeed = 5;
+        this.speed = 0;
+
+        this.position = {
+            x: screenWidth/2 - this.width/2,
+            y: screenHeight - this.height - 10,
+        }
+    }
+    drawPlayer(ctx){
+        ctx.fillStyle = '#F46036'
+        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 
-    // drawPlayer function draws the player onto the screen
-    drawPlayer(){
-        // .beginPath specifies I want to draw on screen
-        context.beginPath()
-        // .arc allows us to draw a circle, canvas doesn't have a circle method
-        context.arc(this.xpos, this.ypos, this.radius, 0, Math.PI *2, false)
-        // .fillStyle passes this.color through the function, allowing the color to appear
-        context.fillStyle = this.color
-        // .fill allows the player to appear on screen
-        context.fill()
+    update(deltaTime){
+        if(!deltaTime) return;
+        // moves 5 pixels per second
+        this.position.x += 5/deltaTime
+
+        // update for moveLeft
+        this.position.x += this.speed;
+    }
+
+    moveLeft(){
+        this.speed = -this.maxSpeed
     }
 }
 
-// x and y coordinates so the player is bottom center in the canvas 
-const xcord = canvas.width/2
-const ycord = canvas.height/1.125
+let player = new Player(screenWidth,screenHeight)
+player.drawPlayer(ctx)
+// PLAYER CREATION END--------------------------------
 
-// creating a new Player from the class already created, then calling the associated function
-const player = new Player (xcord, ycord, 20, 'red')
-player.drawPlayer()
 
-console.log(player);
 
+
+
+// INPUT HANDLERS START-------------------------
+class InputHandler{
+    constructor(player){
+        // event listener for keydown event
+        document.addEventListener('keydown', event =>{
+            switch(event.keyCode){
+                case 37:
+                    player.moveLeft();
+                    break;
+                case 39:
+                    alert('move right');
+                    break;
+                
+            }
+
+        })
+    }
+}
+new InputHandler(player)
+// INPUT HANDLERS END---------------------------
+
+
+// GAME LOOP START------------------------------------
+// is needed to move the objects on the screen; refreshes and updates each frame/positioning
+
+let lastTime = 0
+
+function gameLoop(timestamp){
+    // calculates time passed
+    let deltaTime = timestamp - lastTime;
+    lastTime = timestamp
+
+
+    // this clears the screen each frame
+    ctx.clearRect(0,0,screenWidth,screenHeight)
+    // this updates the player position
+    player.update(deltaTime)
+    // this redraws the player
+    player.drawPlayer(ctx)
+
+    // calls the gameloop again with the next frames timestamp
+    requestAnimationFrame(gameLoop)
+}
+gameLoop()
+
+
+// GAME LOOP END--------------------------------------
 
 
