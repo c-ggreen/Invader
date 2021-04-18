@@ -1,18 +1,19 @@
+// calling the canvas in HTML and setting the context
 const canvas = document.querySelector('canvas')
 ctx = canvas.getContext('2d')
 
+// determining the canvas width and height; creating the screenWidth/Height variables
 canvas.width = innerWidth*.8
 canvas.height = innerHeight*.8
 const screenWidth = canvas.width
 const screenHeight = canvas.height
 
-ctx.clearRect(0,0,screenWidth,screenHeight)
 
-// images-----
+// images/icons-----
 let playerIcon = document.getElementById('playerIcon');
 
 
-// PLAYER CREATION START------------------------------
+// PLAYER CREATION START----------------------------------------
 class Player {
     constructor(screenWidth, screenHeight){
         this.width = 64;
@@ -31,9 +32,12 @@ class Player {
     }
 
     update(deltaTime){
-        if(!deltaTime) return;
+        // deltaTime is 0 at first so this is needed to end the gameLoop the first time so deltaTime can count up and the code can run. 
+        if(!deltaTime){
+            return
+        };
 
-        // update for moveLeft
+        // this is for general movement of the player utilizing the moveRight, moveLeft, and stop methods; it dictates the speed & direction.
         this.position.x += this.speed;
         
         // stops player from moving offscreen to the left
@@ -46,13 +50,15 @@ class Player {
         }
     }
 
+    // Player move left
     moveLeft(){
         this.speed = -this.maxSpeed
     }
+    // Player move right
     moveRight(){
         this.speed = this.maxSpeed
     }
-
+    // Player stop
     stop(){
         this.speed = 0
     }
@@ -60,23 +66,26 @@ class Player {
 
 let player = new Player(screenWidth,screenHeight)
 player.drawPlayer(ctx)
-// PLAYER CREATION END--------------------------------
+// PLAYER CREATION END------------------------------------------
 
 
 // MISSILE CREATION START--------------------------------------
 
-
-// missiles array is needed to draw multiple missiles on canvas
+// missiles array is needed to draw multiple missiles on canvas; each spacebar keydown event pushes a new missile into the array
 const missiles = []
 
+// missile class
 class Missile {
     constructor(){
         this.width = 5;
         this.height = 20;
+        // setting the missile to always be at the players position, adjustments of +30 and -20 were needed to center missile object for aesthetic purposes.
         this.position = {
             x: player.position.x + 30,
             y: player.position.y - 20,
         }
+
+        // how fast the missile moves on the screen
         this.speed = 20
     }
     drawMissile(ctx){
@@ -86,21 +95,34 @@ class Missile {
     update(deltaTime){
         // putting the drawMissile method in the update method allows the missile to be drawn everytime the update method runs.
         this.drawMissile(ctx)
-        if(!deltaTime){
-            return
-        }
+
+        // code works without this but I'll keep it just in case
+        // if(!deltaTime){
+        //     return
+        // }
+
+        // sets the direction of the missile on the y-axis so that it goes up by whatever this.speed is. The -= is so that it decreases as it goes along the y-axis.
         this.position.y -= this.speed;
     }
 }
 let missile = new Missile()
 missile.drawMissile(ctx)
 
-// MISSILE CREATION END--------------------------------------
+// MISSILE CREATION END-----------------------------------------
+
+
+// ALIEN CREATION START-----------------------------------------
+class Alien{
+    constructor(){
+
+    }
+}
+
+// ALIEN CREATION END-------------------------------------------
 
 
 
-
-// INPUT HANDLERS START-------------------------
+// INPUT HANDLERS START-----------------------------------------
 
 // -----Player Inputs
 class InputHandler{
@@ -147,10 +169,9 @@ new InputHandler(player)
 class MissileInput {
     constructor(missile){
         document.addEventListener('keydown', event =>{
-            // alert(event.key)
             switch(event.key){
                 case ' ':
-                    // this pushes creates a new missile everytime space is pushed, making it so that the .forEach function in the game loop runs
+                    // this creates a new missile everytime space is pushed, making it so that the .forEach function in the gameLoop runs
                     missiles.push(new Missile)
                     break;
             }
@@ -159,10 +180,10 @@ class MissileInput {
 }
 new MissileInput(missile)
 
-// INPUT HANDLERS END---------------------------
+// INPUT HANDLERS END-------------------------------------------
 
 
-// GAME LOOP START------------------------------------
+// GAME LOOP START----------------------------------------------
 // is needed to move the objects on the screen; refreshes and updates each frame/positioning
 
 let lastTime = 0
@@ -190,6 +211,6 @@ function gameLoop(timestamp){
 gameLoop()
 
 
-// GAME LOOP END--------------------------------------
+// GAME LOOP END------------------------------------------------
 
 
