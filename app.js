@@ -64,55 +64,36 @@ player.drawPlayer(ctx)
 
 
 // MISSILE CREATION START--------------------------------------
+
+
+// missiles array is needed to draw multiple missiles on canvas
+const missiles = []
+
 class Missile {
     constructor(){
         this.width = 5;
         this.height = 20;
         this.position = {
             x: player.position.x + 30,
-            y: player.position.y -20,
+            y: player.position.y - 20,
         }
-        this.speed = 10
+        this.speed = 20
     }
     drawMissile(ctx){
         ctx.fillStyle = '#F46036'
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
     update(deltaTime){
+        // putting the drawMissile method in the update method allows the missile to be drawn everytime the update method runs.
         this.drawMissile(ctx)
         if(!deltaTime){
             return
         }
-        // this.position.y -= this.speed/deltaTime
         this.position.y -= this.speed;
     }
 }
 let missile = new Missile()
 missile.drawMissile(ctx)
-
-
-
-// class Missile {
-//     constructor(){
-//         this.x = x;
-//         this.y = y;
-//         this.radius =radius;
-//         this.color = color;
-//         this.velocity = this.velocity;
-//     }
-//     drawMissile(ctx){
-//         ctx.beginPath()
-//         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-//         ctx.fillStyle = this.color
-//         ctx.fill()
-//     }
-//     update(){
-//         this.x = this.x +this.velocity
-//         this.y = this.y + this.velocity
-//     }
-// }
-// let missile = new Missile()
-// missile.drawMissile(ctx)
 
 // MISSILE CREATION END--------------------------------------
 
@@ -168,8 +149,9 @@ class MissileInput {
         document.addEventListener('keydown', event =>{
             // alert(event.key)
             switch(event.key){
-                case 'ArrowUp':
-                    missile.update(deltaTime);
+                case ' ':
+                    // this pushes creates a new missile everytime space is pushed, making it so that the .forEach function in the game loop runs
+                    missiles.push(new Missile)
                     break;
             }
         })
@@ -177,25 +159,6 @@ class MissileInput {
 }
 new MissileInput(missile)
 
-
-
-
-// document.addEventListener('keydown', event =>{
-//     const missile = new Missile(
-//         player.position.x,
-//         player.position.y,
-//         5,
-//         'red',
-//         {
-//             x:0,
-//             y:-1,
-//         }
-//     )
-//     missile.drawMissile()
-//     missile.update()
-//     })
-
-// ***** input declarations have to be before gameLoop to work
 // INPUT HANDLERS END---------------------------
 
 
@@ -216,8 +179,10 @@ function gameLoop(timestamp){
     // this redraws the player
     player.drawPlayer(ctx)
 
-    missile.update(deltaTime)
-    // missile.drawMissile(ctx)
+    // everytime the missile event listener is triggered the forEach runs the missile update class method
+    missiles.forEach((missile)=>{
+        missile.update(deltaTime)
+    })
 
     // calls the gameloop again with the next frames timestamp
     requestAnimationFrame(gameLoop)
