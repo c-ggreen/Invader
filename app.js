@@ -17,8 +17,8 @@ let alienIcon = document.getElementById('alienIcon');
 // PLAYER CREATION START----------------------------------------
 class Player {
     constructor(screenWidth, screenHeight){
-        this.width = 64;
-        this.height = 64;
+        this.width = 48;
+        this.height = 48;
 
         this.maxSpeed = 12;
         this.speed = 0;
@@ -82,7 +82,7 @@ class Missile {
         this.height = 20;
         // setting the missile to always be at the players position, adjustments of +30 and -20 were needed to center missile object for aesthetic purposes.
         this.position = {
-            x: player.position.x + 30,
+            x: player.position.x + 22.5,
             y: player.position.y - 20,
         }
 
@@ -122,9 +122,10 @@ class Alien{
         this.width = 64;
         this.height = 64;
 
-        // allows the aliens to spawn anywhere within the height and width of the screen
+        // allows the aliens to spawn anywhere within the height and width of the screen; makes spawning relative to screen size and not static.
         this.position = {
             x:Math.random() * (screenWidth - 0)+0,
+            // IMPORTANT: Aliens can only spawn towards the top of the y-axis, hence the screenHeight*.1
             y:Math.random() * (screenHeight*.1 - 0)+0,
         }
 
