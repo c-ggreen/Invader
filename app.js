@@ -11,7 +11,7 @@ const screenHeight = canvas.height
 
 // images/icons-----
 let playerIcon = document.getElementById('playerIcon');
-
+let alienIcon = document.getElementById('alienIcon');
 
 // PLAYER CREATION START----------------------------------------
 class Player {
@@ -112,11 +112,51 @@ missile.drawMissile(ctx)
 
 
 // ALIEN CREATION START-----------------------------------------
+// aliens array, similar to missile array it draws multiple aliens onto the screen
+const aliens = []
 class Alien{
     constructor(){
-
+        this.width = 64;
+        this.height = 64;
+        this.position = {
+            x: 200,
+            y: 100
+        }
+        this.speed = 2
     }
+    drawAlien(ctx){
+        ctx.drawImage(alienIcon, this.position.x, this.position.y, this.width, this.height)
+    }
+
+    update(){
+        this.drawAlien(ctx)
+
+        // for the speed and direction of the alien
+        this.position.x += this.speed
+        this.position.y += this.speed
+
+        // stops alien from moving offscreen to the left
+        if(this.position.x < 0){
+            this.position.x = 0
+        }
+        // stops alien from moving offscreen to the right
+        if(this.position.x + this.width > screenWidth){
+            this.position.x = screenWidth - this.width
+        }
+    }
+
 }
+let alien = new Alien()
+alien.drawAlien(ctx)
+
+// function that spawns aliens every second (1000ms)
+function spawnAliens(){
+    setInterval(()=>{
+        aliens.push(new Alien())
+    }, 1000)
+}
+spawnAliens()
+
 
 // ALIEN CREATION END-------------------------------------------
 
@@ -204,6 +244,12 @@ function gameLoop(timestamp){
     missiles.forEach((missile)=>{
         missile.update(deltaTime)
     })
+
+    // draws new aliens onto the screen in conjunction with the spawnAliens function
+    aliens.forEach((alien)=>{
+        alien.update()
+    })
+
 
     // calls the gameloop again with the next frames timestamp
     requestAnimationFrame(gameLoop)
