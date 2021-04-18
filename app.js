@@ -8,6 +8,7 @@ canvas.height = innerHeight*.8
 const screenWidth = canvas.width
 const screenHeight = canvas.height
 
+// console.log(canvas.width);
 
 // images/icons-----
 let playerIcon = document.getElementById('playerIcon');
@@ -19,7 +20,7 @@ class Player {
         this.width = 64;
         this.height = 64;
 
-        this.maxSpeed = 8;
+        this.maxSpeed = 12;
         this.speed = 0;
 
         this.position = {
@@ -114,15 +115,21 @@ missile.drawMissile(ctx)
 // ALIEN CREATION START-----------------------------------------
 // aliens array, similar to missile array it draws multiple aliens onto the screen
 const aliens = []
+
+// alien class
 class Alien{
     constructor(){
         this.width = 64;
         this.height = 64;
+
+        // allows the aliens to spawn anywhere within the height and width of the screen
         this.position = {
-            x: 200,
-            y: 100
+            x:Math.random() * (screenWidth - 0)+0,
+            y:Math.random() * (screenHeight*.1 - 0)+0,
         }
-        this.speed = 2
+
+        // randomizes the speed at which the aliens move between 1 and 2 pixels.
+        this.speed = Math.random() * (2 -1)+1
     }
     drawAlien(ctx){
         ctx.drawImage(alienIcon, this.position.x, this.position.y, this.width, this.height)
@@ -132,7 +139,6 @@ class Alien{
         this.drawAlien(ctx)
 
         // for the speed and direction of the alien
-        this.position.x += this.speed
         this.position.y += this.speed
 
         // stops alien from moving offscreen to the left
@@ -149,13 +155,13 @@ class Alien{
 let alien = new Alien()
 alien.drawAlien(ctx)
 
-// function that spawns aliens every second (1000ms)
+// function that spawns aliens every second(s) (1s = 1000ms)
 function spawnAliens(){
     setInterval(()=>{
         aliens.push(new Alien())
-    }, 1000)
+    }, 750)
 }
-spawnAliens()
+spawnAliens() //remember to call function so it actually works
 
 
 // ALIEN CREATION END-------------------------------------------
