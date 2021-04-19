@@ -132,7 +132,7 @@ class Alien{
         }
 
         // randomizes the speed at which the aliens move between 1 and 2 pixels.
-        this.speed = Math.random() * (2 -1)+1
+        this.speed = Math.random() * (4-1)+1
     }
     drawAlien(ctx){
         ctx.drawImage(alienIcon, this.position.x, this.position.y, this.width, this.height)
@@ -162,7 +162,7 @@ alien.drawAlien(ctx)
 function spawnAliens(){
     setInterval(()=>{
         aliens.push(new Alien())
-    }, 750)
+    }, 250)
 }
 spawnAliens() //remember to call function so it actually works
 
@@ -265,6 +265,13 @@ function gameLoop(timestamp){
     // draws new aliens onto the screen in conjunction with the spawnAliens function
     aliens.forEach((alien, index)=>{
         alien.update()
+
+        // deletes an alien after it goes off screen, allowing for better game processing/performance over time.
+        if(alien.position.y > screenHeight){
+            setTimeout(()=>{
+                alien.splice(index,1)
+            },0)
+        }
 
         // Collision Detection Start
         missiles.forEach((missile, missileIndex) =>{
