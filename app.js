@@ -162,7 +162,7 @@ alien.drawAlien(ctx)
 function spawnAliens(){
     setInterval(()=>{
         aliens.push(new Alien())
-    }, 250)
+    }, 500)
 }
 spawnAliens() //remember to call function so it actually works
 
@@ -237,7 +237,12 @@ new MissileInput(missile)
 
 let lastTime = 0
 
+let animationId; 
+
 function gameLoop(timestamp){
+    // calls the gameloop again with the next frames timestamp
+    animationId = requestAnimationFrame(gameLoop)
+
     // calculates time passed
     let deltaTime = timestamp - lastTime;
     lastTime = timestamp
@@ -266,10 +271,21 @@ function gameLoop(timestamp){
     aliens.forEach((alien, index)=>{
         alien.update()
 
+        // COLLISION DETECTION FOR PLAYER; ENDS THE GAME/PAUSES FRAME
+        if(
+            player.position.x < alien.position.x + alien.width*.7 &&
+            player.position.x + player.width > alien.position.x &&
+            player.position.y < alien.position.y + alien.height*.7 &&
+            player.position.y + player.height > alien.position.y
+            ){
+                // cancels the animation frame/gameLoop
+                cancelAnimationFrame(animationId)
+            } 
+
         // deletes an alien after it goes off screen, allowing for better game processing/performance over time.
         if(alien.position.y > screenHeight){
             setTimeout(()=>{
-                alien.splice(index,1)
+                aliens.splice(index,1)
             },0)
         }
 
@@ -278,7 +294,7 @@ function gameLoop(timestamp){
             if(
                 missile.position.x < alien.position.x +     alien.width &&
                 missile.position.x + missile.width > alien.position.x &&
-                missile.position.y < alien.position.y + alien.height &&
+                missile.position.y < alien.position.y + alien.height*.8 &&
                 missile.position.y + missile.height > alien.position.y
             ) 
                 { 
@@ -295,9 +311,6 @@ function gameLoop(timestamp){
 
     })
 
-
-    // calls the gameloop again with the next frames timestamp
-    requestAnimationFrame(gameLoop)
 }
 gameLoop()
 
