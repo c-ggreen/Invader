@@ -250,8 +250,15 @@ function gameLoop(timestamp){
     player.drawPlayer(ctx)
 
     // everytime the missile event listener is triggered the forEach runs the missile update class method
-    missiles.forEach((missile)=>{
+    missiles.forEach((missile, index)=>{
         missile.update(deltaTime)
+
+        // deletes a missile after it goes off screen, allowing for better game processing/performance over time.
+        if(missile.position.y < 0){
+            setTimeout(()=>{
+                missiles.splice(index,1)
+            },0)
+        }
         
     })
 
