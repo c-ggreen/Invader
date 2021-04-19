@@ -13,8 +13,31 @@ img{
     display: flex;
     justify-content: center;
     font-family: monospace;
-    font-size: 2em;
+    font-size: 1.25em;
 }
     #scoreNumber{
         color: red;
+    }
+#controls{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: monospace;
+    margin-top: 1em;
+
+}
+    #controls>.cItem{
+        padding: 0;
+        margin: 0;
+    }
+#objective{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: monospace;
+    margin-top: 1em;  
+}
+    #objective>.oItem{
+        padding: 0;
+        margin: 0; 
     }

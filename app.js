@@ -460,7 +460,7 @@ function gameLoop(timestamp){
             ) 
                 { 
                     // score increase each time alien is hit
-                    score+=100
+                    score+=25
                     // setting the innerhtml of the scoreNumber in html
                     scoreNumber.innerHTML = score
 
