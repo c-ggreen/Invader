@@ -20,7 +20,7 @@ class Player {
         this.width = 48;
         this.height = 48;
 
-        this.maxSpeed = 12;
+        this.maxSpeed = 10;
         this.speed = 0;
 
         this.position = {
@@ -81,6 +81,7 @@ class Missile {
         this.width = 5;
         this.height = 20;
         // setting the missile to always be at the players position, adjustments of +30 and -20 were needed to center missile object for aesthetic purposes.
+        // NOTE: Whenever resizing Player icon, Missile position must be adjusted as well.*****
         this.position = {
             x: player.position.x + 22.5,
             y: player.position.y - 20,
@@ -104,6 +105,7 @@ class Missile {
 
         // sets the direction of the missile on the y-axis so that it goes up by whatever this.speed is. The -= is so that it decreases as it goes along the y-axis.
         this.position.y -= this.speed;
+
     }
 }
 let missile = new Missile()
@@ -250,11 +252,30 @@ function gameLoop(timestamp){
     // everytime the missile event listener is triggered the forEach runs the missile update class method
     missiles.forEach((missile)=>{
         missile.update(deltaTime)
+        
     })
 
     // draws new aliens onto the screen in conjunction with the spawnAliens function
-    aliens.forEach((alien)=>{
+    aliens.forEach((alien, index)=>{
         alien.update()
+
+        // Collision Detection Start
+        missiles.forEach((missile, missileIndex) =>{
+            if(
+                missile.position.x < alien.position.x +     alien.width &&
+                missile.position.x + missile.width > alien.position.x &&
+                missile.position.y < alien.position.y + alien.height &&
+                missile.position.y + missile.height > alien.position.y
+            ) 
+                { 
+                    // deletes the missile and alien if they touch, add the 1 so that it only deletes 1 alien after each collision
+                    aliens.splice(index,1)
+                    missiles.splice(missileIndex,1)
+                }
+            }
+        )
+        // Collision Detection End
+
     })
 
 
@@ -265,5 +286,6 @@ gameLoop()
 
 
 // GAME LOOP END------------------------------------------------
+
 
 
