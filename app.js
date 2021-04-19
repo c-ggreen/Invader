@@ -14,65 +14,113 @@ const screenHeight = canvas.height
 let playerIcon = document.getElementById('playerIcon');
 let alienIcon = document.getElementById('alienIcon');
 let earthPlanet = document.getElementById('earthPlanet')
+let ringPlanet = document.getElementById('ringPlanet')
+let moonPlanet = document.getElementById('moonPlanet')
+const spaceBackground = document.getElementById('spaceBackground')
 
 // BACKGROUND IMAGE START---------------------------------------
-let x = 0
-let y = 0
-
-let sx;
-let sy;
-
-let sheetWidth = 5000
-let sheetHeight = 100
-
-let columns = 50
-let rows = 1
-
-let width = sheetWidth/columns
-let height = sheetHeight/rows
-
-let currentFrame = 0
-
-function updateFrame(){
-    currentFrame = ++currentFrame % columns;
-    sx = currentFrame * width;
-    sy = 0
+// -----Space Background
+class SpaceBackground {
+    constructor(){
+        this.height = screenHeight
+        this.width = screenWidth
+        this.position = {
+            x:0,
+            y:0
+        }
+    }
+    drawSpaceBackground(ctx){
+        ctx.drawImage(spaceBackground, this.position.x, this.position.y, this.width, this.height)
+    }
 }
-function drawBackgroundImage(){
-    updateFrame();
-    ctx.drawImage(earthPlanet, sx, sy, width, height, x, y, 100, 100 )
+let background = new SpaceBackground
+
+
+// -----EARTH PLANET
+let earthX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
+let earthY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
+
+let earthSx;
+let earthSy;
+
+let earthSheetWidth = 5000
+let earthSheetHeight = 100
+
+let earthColumns = 50
+let earthRows = 1
+
+let earthWidth = earthSheetWidth/earthColumns
+let earthHeight = earthSheetHeight/earthRows
+
+let earthCurrentFrame = 0
+
+function updateEarthFrame(){
+    earthCurrentFrame = ++earthCurrentFrame % earthColumns;
+    earthSx = earthCurrentFrame * earthWidth;
+    earthSy = 0
 }
-setInterval(function(){
-    drawBackgroundImage()
-},100)
+function drawEarthBackground(){
+    updateEarthFrame();
+    ctx.drawImage(earthPlanet, earthSx, earthSy, earthWidth, earthHeight, earthX, earthY, 100, 100 )
+}
 
 
+// -----RING PLANET
+let ringX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
+let ringY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
 
+let ringSx;
+let ringSy;
 
+let ringSheetWidth = 15000
+let ringSheetHeight = 300
 
-// class Background {
-//     constructor(){
-//         this.sWidth = 5000;
-//         this.sHeight = 100;
-//         this.position = {
-//             x:0,
-//             y:0,
-//         };
-//         this.width = 5000/50;
-//         this.height = 100/1;
-//         this.sx = currentFrame * 100;
-//         this.sy = 0;
-//     }
-//     drawBackground(ctx){
-//         currentFrame = ++currentFrame % columns
-//         ctx.drawImage(earthPlanet, this.sx, this.sy, this. width, this.height, this.position.x, this.position.x)
-//     }
-//     update(){
-//         this.drawBackground(ctx)
-//     }
-// }
-// let background = new Background()
-// background.update()
+let ringColumns = 50
+let ringRows = 1
+
+let ringWidth = ringSheetWidth/ringColumns
+let ringHeight = ringSheetHeight/ringRows
+
+let ringCurrentFrame = 0
+
+function updateRingFrame(){
+    ringCurrentFrame = ++ringCurrentFrame % ringColumns;
+    ringSx = ringCurrentFrame * ringWidth;
+    ringSy = 0
+}
+function drawRingBackground(){
+    updateRingFrame();
+    ctx.drawImage(ringPlanet, ringSx, ringSy, ringWidth, ringHeight, ringX, ringY, 300, 300 )
+}
+
+// -----MOON PLANET
+let moonX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
+let moonY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
+
+let moonSx;
+let moonSy;
+
+let moonSheetWidth = 5000
+let moonSheetHeight = 100
+
+let moonColumns = 50
+let moonRows = 1
+
+let moonWidth = moonSheetWidth/moonColumns
+let moonHeight = moonSheetHeight/moonRows
+
+let moonCurrentFrame = 0
+
+function updateMoonFrame(){
+    moonCurrentFrame = ++moonCurrentFrame % moonColumns;
+    moonSx = moonCurrentFrame * moonWidth;
+    moonSy = 0
+}
+function drawMoonBackground(){
+    updateMoonFrame();
+    ctx.drawImage(moonPlanet, moonSx, moonSy, moonWidth, moonHeight, moonX, moonY, 100, 100 )
+}
+
 // BACKGROUND IMAGE END---------------------------------------
 
 
@@ -190,7 +238,7 @@ class Alien{
         this.position = {
             x:Math.random() * (screenWidth - 0)+0,
             // IMPORTANT: Aliens can only spawn towards the top of the y-axis, hence the screenHeight*.1
-            y:Math.random() * (screenHeight*.1 - 0)+0,
+            y:Math.random() * ((-10 - (-15)))+(-15),
         }
 
         // randomizes the speed at which the aliens move between 1 and 2 pixels.
@@ -311,10 +359,18 @@ function gameLoop(timestamp){
 
     // this clears the screen each frame
     ctx.clearRect(0,0,screenWidth,screenHeight)
+    
+    // background images
+    background.drawSpaceBackground(ctx)
+    drawEarthBackground()
+    drawRingBackground()
+    drawMoonBackground()
+
     // this updates the player position
     player.update(deltaTime)
     // this redraws the player
     player.drawPlayer(ctx)
+
 
     // everytime the missile event listener is triggered the forEach runs the missile update class method
     missiles.forEach((missile, index)=>{
