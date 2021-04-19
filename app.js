@@ -268,9 +268,12 @@ function gameLoop(timestamp){
                 missile.position.y + missile.height > alien.position.y
             ) 
                 { 
-                    // deletes the missile and alien if they touch, add the 1 so that it only deletes 1 alien after each collision
-                    aliens.splice(index,1)
-                    missiles.splice(missileIndex,1)
+                    // setTimeout gets rid of alienIcon flash that occurs when they are deleted
+                    setTimeout(()=>{
+                        // deletes the missile and alien if they touch, add the 1 so that it only deletes 1 alien after each collision
+                        aliens.splice(index,1)
+                        missiles.splice(missileIndex,1)
+                    },0)
                 }
             }
         )
