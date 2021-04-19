@@ -13,6 +13,68 @@ const screenHeight = canvas.height
 // images/icons-----
 let playerIcon = document.getElementById('playerIcon');
 let alienIcon = document.getElementById('alienIcon');
+let earthPlanet = document.getElementById('earthPlanet')
+
+// BACKGROUND IMAGE START---------------------------------------
+let x = 0
+let y = 0
+
+let sx;
+let sy;
+
+let sheetWidth = 5000
+let sheetHeight = 100
+
+let columns = 50
+let rows = 1
+
+let width = sheetWidth/columns
+let height = sheetHeight/rows
+
+let currentFrame = 0
+
+function updateFrame(){
+    currentFrame = ++currentFrame % columns;
+    sx = currentFrame * width;
+    sy = 0
+}
+function drawBackgroundImage(){
+    updateFrame();
+    ctx.drawImage(earthPlanet, sx, sy, width, height, x, y, 100, 100 )
+}
+setInterval(function(){
+    drawBackgroundImage()
+},100)
+
+
+
+
+
+// class Background {
+//     constructor(){
+//         this.sWidth = 5000;
+//         this.sHeight = 100;
+//         this.position = {
+//             x:0,
+//             y:0,
+//         };
+//         this.width = 5000/50;
+//         this.height = 100/1;
+//         this.sx = currentFrame * 100;
+//         this.sy = 0;
+//     }
+//     drawBackground(ctx){
+//         currentFrame = ++currentFrame % columns
+//         ctx.drawImage(earthPlanet, this.sx, this.sy, this. width, this.height, this.position.x, this.position.x)
+//     }
+//     update(){
+//         this.drawBackground(ctx)
+//     }
+// }
+// let background = new Background()
+// background.update()
+// BACKGROUND IMAGE END---------------------------------------
+
 
 // PLAYER CREATION START----------------------------------------
 class Player {
@@ -289,7 +351,7 @@ function gameLoop(timestamp){
             },0)
         }
 
-        // Collision Detection Start
+        // Collision Detection Start (Aliens and Missiles)
         missiles.forEach((missile, missileIndex) =>{
             if(
                 missile.position.x < alien.position.x +     alien.width &&
@@ -307,7 +369,7 @@ function gameLoop(timestamp){
                 }
             }
         )
-        // Collision Detection End
+        // Collision Detection End (Aliens and Missiles)
 
     })
 
