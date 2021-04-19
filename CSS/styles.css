@@ -8,3 +8,13 @@ canvas{
 img{
     display: none;
 }
+#scoreDiv{
+    /* border: solid black; */
+    display: flex;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 2em;
+}
+    #scoreNumber{
+        color: red;
+    }

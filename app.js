@@ -8,7 +8,9 @@ canvas.height = innerHeight*.8
 const screenWidth = canvas.width
 const screenHeight = canvas.height
 
-// console.log(canvas.width);
+// selecthing the score number from HT<L
+const scoreNumber = document.getElementById('scoreNumber')
+
 
 // images/icons-----
 let playerIcon = document.getElementById('playerIcon');
@@ -237,7 +239,7 @@ class Alien{
         // allows the aliens to spawn anywhere within the height and width of the screen; makes spawning relative to screen size and not static.
         this.position = {
             x:Math.random() * (screenWidth - 0)+0,
-            // IMPORTANT: Aliens can only spawn towards the top of the y-axis, hence the screenHeight*.1
+            // IMPORTANT: Aliens can only spawn towards the top of the y-axis, in this case I'm making them spawn outside of the y-axis.
             y:Math.random() * ((-10 - (-15)))+(-15),
         }
 
@@ -278,6 +280,43 @@ spawnAliens() //remember to call function so it actually works
 
 
 // ALIEN CREATION END-------------------------------------------
+
+
+// WIN/LOSS SCREEN START----------------------------------------
+class EndGameScreen {
+    constructor() {
+        this.width = screenWidth;
+        this.height= screenHeight;
+        this.x = 0;
+        this.y = 0;
+    }
+    drawDefeat(){
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+        ctx.fillStyle = "black"
+        ctx.fill()
+
+        ctx.font = "2em Monospace"
+        ctx.fillStyle = "white"
+        ctx.textAlign = "center"
+        ctx.fillText("DEFEATED!, Reload Page to TRY AGAIN", screenWidth/2, screenHeight/2)
+    }
+    drawWinner(){
+        ctx.fillRect(this.x, this.y, this.width, this.height)
+        ctx.fillStyle = "black"
+        ctx.fill()
+
+        ctx.font = "2em Monospace"
+        ctx.fillStyle = "white"
+        ctx.textAlign = "center"
+        ctx.fillText("WINNER!, Reload Page to Continue", screenWidth/2, screenHeight/2)
+    }
+}
+let defeatScreen = new EndGameScreen()
+let winnerScreen = new EndGameScreen
+
+// WIN/LOSS SCREEN END------------------------------------------
+
+
 
 
 
@@ -349,6 +388,8 @@ let lastTime = 0
 
 let animationId; 
 
+let score = 0
+
 function gameLoop(timestamp){
     // calls the gameloop again with the next frames timestamp
     animationId = requestAnimationFrame(gameLoop)
@@ -398,6 +439,8 @@ function gameLoop(timestamp){
             ){
                 // cancels the animation frame/gameLoop
                 cancelAnimationFrame(animationId)
+                // draws the defeatScreen
+                defeatScreen.drawDefeat()
             } 
 
         // deletes an alien after it goes off screen, allowing for better game processing/performance over time.
@@ -416,6 +459,11 @@ function gameLoop(timestamp){
                 missile.position.y + missile.height > alien.position.y
             ) 
                 { 
+                    // score increase each time alien is hit
+                    score+=100
+                    // setting the innerhtml of the scoreNumber in html
+                    scoreNumber.innerHTML = score
+
                     // setTimeout gets rid of alienIcon flash that occurs when they are deleted
                     setTimeout(()=>{
                         // deletes the missile and alien if they touch, add the 1 so that it only deletes 1 alien after each collision
@@ -428,7 +476,11 @@ function gameLoop(timestamp){
         // Collision Detection End (Aliens and Missiles)
 
     })
-
+    // score parameter for game win
+    if(score == 1000){
+        cancelAnimationFrame(animationId)
+        winnerScreen.drawWinner()
+    }
 }
 gameLoop()
 
