@@ -27,3 +27,7 @@ My unresolved issues are the following:
  # Closing Remarks
 
  I fully intend to periodically update this project and fix any unresolved issues in order to make it as playable as possible. If you'd liked to keep track of my progress, feel free to visit my [GitHub Pages](https://c-ggreen.github.io/Invader/)
+
+ # Patch Notes
+ ### v1.1
+ - Users can now use the "Enter" key to reload/refresh screen after win or loss condition is met.

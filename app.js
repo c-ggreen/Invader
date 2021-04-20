@@ -305,7 +305,7 @@ class EndGameScreen {
         ctx.font = "2em Monospace"
         ctx.fillStyle = "white"
         ctx.textAlign = "center"
-        ctx.fillText("DEFEATED!, Reload Page to Try Again.", screenWidth/2, screenHeight/2)
+        ctx.fillText("DEFEATED!, Press ENTER to Try Again.", screenWidth/2, screenHeight/2)
     }
     drawWinner(){
         ctx.fillRect(this.x, this.y, this.width, this.height)
@@ -314,7 +314,7 @@ class EndGameScreen {
         ctx.font = "2em Monospace"
         ctx.fillStyle = "white"
         ctx.textAlign = "center"
-        ctx.fillText("WINNER!, Reload Page to Play Again.", screenWidth/2, screenHeight/2)
+        ctx.fillText("WINNER!, Press ENTER to Play Again.", screenWidth/2, screenHeight/2)
     }
 }
 let defeatScreen = new EndGameScreen()
@@ -481,7 +481,7 @@ function gameLoop(timestamp){
 
     })
     // score parameter for game win
-    if(score >= 500){
+    if(score >= 2500){
         cancelAnimationFrame(animationId)
         ctx.clearRect(0,0,screenWidth,screenHeight)
         winnerScreen.drawWinner()
@@ -493,4 +493,13 @@ gameLoop()
 
 // GAME LOOP END------------------------------------------------
 
+// PAGE RELOAD--------------------------------------------------
+// event listener that reloads the page when the "enter" button is pushed
+addEventListener('keydown', event =>{
+    switch(event.key){
+        case 'Enter':
+            // location.reload() reloads the page/window/current URL
+            location.reload()
+    }
+})
 
