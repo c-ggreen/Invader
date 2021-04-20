@@ -25,7 +25,15 @@
     </div>
     <canvas></canvas>
     <div id="scoreDiv">
-        Score:<span id="scoreNumber">0</span>
+        <span id="scoreNumber">0</span>
+    </div>
+
+
+    <audio id="gameAudio" src="/sounds/gameAudio.mp3">
+    </audio>
+    <div id="buttons">
+        <button id="playButton" onclick="playAudio()">Play Immersive Music</button>
+        <button id="pauseButton" onclick="pauseAudio()">Pause Music</button>
     </div>
 
     <script src="/app.js"></script>

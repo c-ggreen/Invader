@@ -11,6 +11,14 @@ const screenHeight = canvas.height
 // selecthing the score number from HT<L
 const scoreNumber = document.getElementById('scoreNumber')
 
+// sounds-----
+const gameAudio = document.getElementById('gameAudio')
+function playAudio() { 
+  gameAudio.play(); 
+} 
+function pauseAudio() { 
+  gameAudio.pause(); 
+}
 
 // images/icons-----
 let playerIcon = document.getElementById('playerIcon');
@@ -239,12 +247,12 @@ class Alien{
         // allows the aliens to spawn anywhere within the height and width of the screen; makes spawning relative to screen size and not static.
         this.position = {
             x:Math.random() * (screenWidth - 0)+0,
-            // IMPORTANT: Aliens can only spawn towards the top of the y-axis, in this case I'm making them spawn outside of the y-axis.
-            y:Math.random() * ((-10 - (-15)))+(-15),
+            // IMPORTANT: Aliens can only spawn towards the top of the y-axis, in this case I'm making them spawn in the top 10% of the y axis.
+            y:Math.random() * (screenHeight*.1 - 0)+0,
         }
 
         // randomizes the speed at which the aliens move between 1 and 2 pixels.
-        this.speed = Math.random() * (4-1)+1
+        this.speed = Math.random() * (4-2)+2
     }
     drawAlien(ctx){
         ctx.drawImage(alienIcon, this.position.x, this.position.y, this.width, this.height)
@@ -274,7 +282,7 @@ alien.drawAlien(ctx)
 function spawnAliens(){
     setInterval(()=>{
         aliens.push(new Alien())
-    }, 500)
+    }, 300)
 }
 spawnAliens() //remember to call function so it actually works
 
@@ -298,7 +306,7 @@ class EndGameScreen {
         ctx.font = "2em Monospace"
         ctx.fillStyle = "white"
         ctx.textAlign = "center"
-        ctx.fillText("DEFEATED!, Reload Page to TRY AGAIN", screenWidth/2, screenHeight/2)
+        ctx.fillText("DEFEATED!, Reload Page to Try Again.", screenWidth/2, screenHeight/2)
     }
     drawWinner(){
         ctx.fillRect(this.x, this.y, this.width, this.height)
@@ -308,16 +316,13 @@ class EndGameScreen {
         ctx.font = "2em Monospace"
         ctx.fillStyle = "white"
         ctx.textAlign = "center"
-        ctx.fillText("WINNER!, Reload Page to Continue", screenWidth/2, screenHeight/2)
+        ctx.fillText("WINNER!, Reload Page to Play Again.", screenWidth/2, screenHeight/2)
     }
 }
 let defeatScreen = new EndGameScreen()
 let winnerScreen = new EndGameScreen
 
 // WIN/LOSS SCREEN END------------------------------------------
-
-
-
 
 
 // INPUT HANDLERS START-----------------------------------------
@@ -436,7 +441,8 @@ function gameLoop(timestamp){
             player.position.x + player.width > alien.position.x &&
             player.position.y < alien.position.y + alien.height*.7 &&
             player.position.y + player.height > alien.position.y
-            ){
+            )
+            {
                 // cancels the animation frame/gameLoop
                 cancelAnimationFrame(animationId)
                 // draws the defeatScreen
@@ -477,10 +483,12 @@ function gameLoop(timestamp){
 
     })
     // score parameter for game win
-    if(score == 1000){
+    if(score >= 2500){
         cancelAnimationFrame(animationId)
         winnerScreen.drawWinner()
     }
+
+    
 }
 gameLoop()
 

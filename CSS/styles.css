@@ -11,9 +11,9 @@ img{
 #scoreDiv{
     /* border: solid black; */
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     font-family: monospace;
-    font-size: 1.25em;
+    font-size: 2em;
 }
     #scoreNumber{
         color: red;
@@ -41,3 +41,9 @@ img{
         padding: 0;
         margin: 0; 
     }
+#buttons{
+    display: flex;
+    justify-content: space-around;
+    font-family: monospace;
+    font-size: 2em;
+}
