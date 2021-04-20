@@ -8,7 +8,7 @@ canvas.height = innerHeight*.8
 const screenWidth = canvas.width
 const screenHeight = canvas.height
 
-// selecthing the score number from HT<L
+// selecthing the score number from HTML
 const scoreNumber = document.getElementById('scoreNumber')
 
 // sounds-----
@@ -300,7 +300,6 @@ class EndGameScreen {
     }
     drawDefeat(){
         ctx.fillRect(this.x, this.y, this.width, this.height)
-        ctx.fillStyle = "black"
         ctx.fill()
 
         ctx.font = "2em Monospace"
@@ -310,7 +309,6 @@ class EndGameScreen {
     }
     drawWinner(){
         ctx.fillRect(this.x, this.y, this.width, this.height)
-        ctx.fillStyle = "black"
         ctx.fill()
 
         ctx.font = "2em Monospace"
@@ -459,7 +457,7 @@ function gameLoop(timestamp){
         // Collision Detection Start (Aliens and Missiles)
         missiles.forEach((missile, missileIndex) =>{
             if(
-                missile.position.x < alien.position.x +     alien.width &&
+                missile.position.x < alien.position.x + alien.width &&
                 missile.position.x + missile.width > alien.position.x &&
                 missile.position.y < alien.position.y + alien.height*.8 &&
                 missile.position.y + missile.height > alien.position.y
@@ -483,8 +481,9 @@ function gameLoop(timestamp){
 
     })
     // score parameter for game win
-    if(score >= 2500){
+    if(score >= 500){
         cancelAnimationFrame(animationId)
+        ctx.clearRect(0,0,screenWidth,screenHeight)
         winnerScreen.drawWinner()
     }
 
@@ -492,8 +491,6 @@ function gameLoop(timestamp){
 }
 gameLoop()
 
-
 // GAME LOOP END------------------------------------------------
-
 
 

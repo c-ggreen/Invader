@@ -14,23 +14,25 @@
     <img id="ringPlanet" src="/images/ringplanet_sprite.png" alt="">
     <img id="playerIcon" src="/images/space-invaders.png" alt="">
     <img id="alienIcon" src="/images/alien_icon.png" alt="">
-        <div id="controls">
+    
+    <div id="controls">
         <h3 class="cItem">Controls</h3>
         <p class="cItem">LEFT and RIGHT arrow keys to move</p>
         <p class="cItem">SPACEBAR to shoot</p>
     </div>
+
     <div id="objective">
         <h3 class="oItem">Objective</h3>
         <p class="oItem">Hit, but don't get hit. Reach the mystery score without colliding with an Alien to win the game. </p>
     </div>
+
     <canvas></canvas>
+
     <div id="scoreDiv">
         <span id="scoreNumber">0</span>
     </div>
 
-
-    <audio id="gameAudio" src="/sounds/gameAudio.mp3">
-    </audio>
+    <audio id="gameAudio" src="/sounds/gameAudio.mp3"></audio>
     <div id="buttons">
         <button id="playButton" onclick="playAudio()">Play Immersive Music</button>
         <button id="pauseButton" onclick="pauseAudio()">Pause Music</button>
