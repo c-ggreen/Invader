@@ -8,28 +8,18 @@ canvas{
 img{
     display: none;
 }
-#scoreDiv{
-    /* border: solid black; */
-    display: flex;
-    justify-content: space-around;
-    font-family: monospace;
-    font-size: 2em;
-}
-    #scoreNumber{
-        color: red;
-    }
 #controls{
     display: flex;
     flex-direction: column;
     align-items: center;
     font-family: monospace;
     margin-top: 1em;
-
+    
 }
-    #controls>.cItem{
-        padding: 0;
-        margin: 0;
-    }
+#controls>.cItem{
+    padding: 0;
+    margin: 0;
+}
 #objective{
     display: flex;
     flex-direction: column;
@@ -37,13 +27,19 @@ img{
     font-family: monospace;
     margin-top: 1em;  
 }
-    #objective>.oItem{
-        padding: 0;
-        margin: 0; 
-    }
+#objective>.oItem{
+    padding: 0;
+    margin: 0; 
+}
 #buttons{
+    width: 80vw;
+    margin: 0 auto;
     display: flex;
     justify-content: space-around;
     font-family: monospace;
     font-size: 2em;
 }
+    #scoreNumber{
+        padding-right: 2em;
+        color: red;
+    }
