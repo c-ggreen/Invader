@@ -172,6 +172,9 @@ const spaceBackground = document.getElementById('spaceBackground')
             if(!deltaTime){
                 return
             }
+            
+            // By putting the .drawPlayer() method inside the .update() method I only have to call the .update() in the gameLoop instead of both.
+            this.drawPlayer(ctx)
 
             // This is for general movement of the player utilizing the .moveRight(), .moveLeft(), and .stop() methods in this class. Each method sets "this.speed" equal to +/- "this.maxSpeed", or 0 respectively and manipulates the x-coordinate of the Player. Depending on whether or not "this.maxSpeed" is +/- dictates the direction the player goes.
             this.position.x += this.speed;
@@ -399,11 +402,8 @@ const spaceBackground = document.getElementById('spaceBackground')
         drawRingBackground()
         drawMoonBackground()
 
-        // this updates the player position
+        // This draws and updates the player position
         player.update(deltaTime)
-        // this redraws the player
-        player.drawPlayer(ctx)
-
 
         // Every time the missile event listener is triggered this forEach runs the missile update class method, which draws the new missile onto the screen after it was pushed into the array.
         missiles.forEach((missile, index)=>{
