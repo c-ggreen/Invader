@@ -4,6 +4,7 @@ canvas{
     margin: 2% auto;
     display: flex;
     justify-self: center;
+    z-index: -1;
 }
 img{
     display: none;
@@ -40,6 +41,17 @@ img{
     font-size: 2em;
 }
     #scoreNumber{
-        padding-right: 2em;
         color: red;
     }
+
+#playButton{
+    border: black solid;
+    background-color: black;
+    border-radius: 50%;
+}
+#pauseButton{
+    border: black solid;
+    background-color: black;
+    border-radius: 50%;
+
+}
