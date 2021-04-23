@@ -29,7 +29,7 @@ let moonPlanet = document.getElementById('moonPlanet')
 const spaceBackground = document.getElementById('spaceBackground')
 
 // BACKGROUND IMAGE START---------------------------------------
-// These are the background images for the game. Each image has a draw function, but only the Sprites (Planets) have an update function so they cycle through each image/section of the SpriteSheet so they appear animated. The Space Background is the only one with a class.
+// These are the background images for the game. Each image has a draw function, but only the Sprites (Planets) have an update function so they cycle through each image/section of the SpriteSheet so they appear animated.
 
     // -----Space Background
     class SpaceBackground {
@@ -47,100 +47,102 @@ const spaceBackground = document.getElementById('spaceBackground')
     let background = new SpaceBackground
 
     // Note: The Planet Backgrounds have randomized X and Y coordinates allowing them to spawn at random positions within a predetermined section of the screen as to add aesthetic but not allow them to spawn by the Player or partly off-screen so they aren't distracting/only partially visible.
-        // -----EARTH PLANET
-        let earthX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
-        let earthY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
+    class Planet {
+        constructor(){
+            // -----EARTH PLANET
+             this.earthX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
+             this.earthY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
 
-        // Sprite Frame Coordinates; dictates which image frame of the SpriteSheet to display based on its position in the sheet.
-        let earthSx;
-        let earthSy;
+            // Sprite Frame Coordinates; dictates which image frame of the SpriteSheet to display based on its position in the sheet.
+             this.earthSx;
+             this.earthSy;
 
-        // Dimensions of the full SpriteSheet
-        let earthSheetWidth = 5000
-        let earthSheetHeight = 100
+            // Dimensions of the full SpriteSheet
+             this.earthSheetWidth = 5000
+             this.earthSheetHeight = 100
 
-        // Columns and Rows of the SpriteSheet
-        let earthColumns = 50
-        let earthRows = 1
+            // Columns and Rows of the SpriteSheet
+             this.earthColumns = 50
+             this.earthRows = 1
 
-        // Sprite Frame Dimensions; dictates the height and width of the frame to be displayed, this is given by dividing the total width of the SpriteSheet by the total amount of columns, and the total height of the SpriteSheet by the total amount of rows, resulting in the width and height of each frame.
-        let earthWidth = earthSheetWidth/earthColumns
-        let earthHeight = earthSheetHeight/earthRows
+            // Sprite Frame Dimensions; dictates the height and width of the frame to be displayed, this is given by dividing the total width of the SpriteSheet by the total amount of columns, and the total height of the SpriteSheet by the total amount of rows, resulting in the width and height of each frame.
+             this.earthWidth = this.earthSheetWidth/this.earthColumns
+             this.earthHeight = this.earthSheetHeight/this.earthRows
 
-        // Counter
-        let earthCurrentFrame = 0
+            // Counter
+             this.earthCurrentFrame = 0   
+                 
+             // -----RING PLANET
+             this.ringX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
+             this.ringY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
 
-        function updateEarthFrame(){
-            // This equation counts through the frames using the modulo operator; for example, [0 % 50 = (frame) 0], [1 % 50 = (frame) 1], [2 % 50 = (frame) 2]
-            earthCurrentFrame = ++earthCurrentFrame % earthColumns;
-            // Then each currentFrame is multiplied by the width of an individual frame to capture the specific width of the currentFrame to be displayed. For example, [(frame)5 * 100(width) = 500(width)], so the 5th frame at the 500 width of the ENTIRE SpriteSheet will be selected.
-            earthSx = earthCurrentFrame * earthWidth;
-            // Only 1 row so there isn't a need to move downwards the SpriteSheet
-            earthSy = 0
+             this.ringSx;
+             this.ringSy;
+
+             this.ringSheetWidth = 15000
+             this.ringSheetHeight = 300
+
+             this.ringColumns = 50
+             this.ringRows = 1
+
+             this.ringWidth = this.ringSheetWidth/this.ringColumns
+             this.ringHeight = this.ringSheetHeight/this.ringRows
+
+             this.ringCurrentFrame = 0
+
+             // -----MOON PLANET
+             this.moonX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
+             this.moonY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
+
+             this.moonSx;
+             this.moonSy;
+
+             this.moonSheetWidth = 5000
+             this.moonSheetHeight = 100
+
+             this.moonColumns = 50
+             this.moonRows = 1
+
+             this.moonWidth = this.moonSheetWidth/this.moonColumns
+             this.moonHeight = this.moonSheetHeight/this.moonRows
+
+             this.moonCurrentFrame = 0
+
         }
-        function drawEarthBackground(){
-            updateEarthFrame();
+        updateEarthFrame(){
+            // This equation counts through the frames using the modulo operator; for example, [0 % 50 = (frame) 0], [1 % 50 = (frame) 1], [2 % 50 = (frame) 2]
+            this.earthCurrentFrame = ++this.earthCurrentFrame % this.earthColumns;
+            // Then each currentFrame is multiplied by the width of an individual frame to capture the specific width of the currentFrame to be displayed. For example, [(frame)5 * 100(width) = 500(width)], so the 5th frame at the 500 width of the ENTIRE SpriteSheet will be selected.
+            this.earthSx = this.earthCurrentFrame * this.earthWidth;
+            // Only 1 row so there isn't a need to move downwards the SpriteSheet
+            this.earthSy = 0
+        }
+        drawEarthBackground(){
+            this.updateEarthFrame();
             // Then in order, the image is selected, the Sprite Frame X and Y are declared, the Width and Height of the selected frame in the SpriteSheet is declared, the screen X and Y coordinates are declared, and then the desired height and width for how large you want the selected sprite image to be on your screen.
             // Note: if the last two height and width arguments are larger than the height and width arguments for each frame on the SpriteSheet, it could cause the image to be blurred.
-            ctx.drawImage(earthPlanet, earthSx, earthSy, earthWidth, earthHeight, earthX, earthY, 100, 100 )
+            ctx.drawImage(earthPlanet, this.earthSx, this.earthSy, this.earthWidth, this.earthHeight, this.earthX, this.earthY, 100, 100 )
         }
-
-
-        // -----RING PLANET
-        let ringX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
-        let ringY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
-
-        let ringSx;
-        let ringSy;
-
-        let ringSheetWidth = 15000
-        let ringSheetHeight = 300
-
-        let ringColumns = 50
-        let ringRows = 1
-
-        let ringWidth = ringSheetWidth/ringColumns
-        let ringHeight = ringSheetHeight/ringRows
-
-        let ringCurrentFrame = 0
-
-        function updateRingFrame(){
-            ringCurrentFrame = ++ringCurrentFrame % ringColumns;
-            ringSx = ringCurrentFrame * ringWidth;
-            ringSy = 0
+        updateRingFrame(){
+            this.ringCurrentFrame = ++this.ringCurrentFrame % this.ringColumns;
+            this.ringSx = this.ringCurrentFrame * this.ringWidth;
+            this.ringSy = 0
         }
-        function drawRingBackground(){
-            updateRingFrame();
-            ctx.drawImage(ringPlanet, ringSx, ringSy, ringWidth, ringHeight, ringX, ringY, 300, 300 )
+        drawRingBackground(){
+            this.updateRingFrame();
+            ctx.drawImage(ringPlanet, this.ringSx, this.ringSy, this.ringWidth, this.ringHeight, this.ringX, this.ringY, 300, 300 )
         }
-
-        // -----MOON PLANET
-        let moonX = Math.random() * (screenWidth*.8 - screenWidth*.2) + screenWidth*.2;
-        let moonY = Math.random() * (screenHeight*.4 - screenHeight*.2) + screenHeight*.2
-
-        let moonSx;
-        let moonSy;
-
-        let moonSheetWidth = 5000
-        let moonSheetHeight = 100
-
-        let moonColumns = 50
-        let moonRows = 1
-
-        let moonWidth = moonSheetWidth/moonColumns
-        let moonHeight = moonSheetHeight/moonRows
-
-        let moonCurrentFrame = 0
-
-        function updateMoonFrame(){
-            moonCurrentFrame = ++moonCurrentFrame % moonColumns;
-            moonSx = moonCurrentFrame * moonWidth;
-            moonSy = 0
+        updateMoonFrame(){
+            this.moonCurrentFrame = ++this.moonCurrentFrame % this.moonColumns;
+            this.moonSx = this.moonCurrentFrame * this.moonWidth;
+            this.moonSy = 0
         }
-        function drawMoonBackground(){
-            updateMoonFrame();
-            ctx.drawImage(moonPlanet, moonSx, moonSy, moonWidth, moonHeight, moonX, moonY, 100, 100 )
+        drawMoonBackground(){
+            this.updateMoonFrame();
+            ctx.drawImage(moonPlanet, this.moonSx, this.moonSy, this.moonWidth, this.moonHeight, this.moonX, this.moonY, 100, 100 )
         }
+    }
+let planet = new Planet()
 // BACKGROUND IMAGE END---------------------------------------
 
 // The following are the individual classes that were created for the Player, Missiles, Aliens, and the Win/Loss Screen. Each class has a constructor, and methods associated with drawing objects of each class onto the screen. These methods are ran through the gameLoop function towards the end of the code
@@ -398,9 +400,9 @@ const spaceBackground = document.getElementById('spaceBackground')
         
         // background images
         background.drawSpaceBackground(ctx)
-        drawEarthBackground()
-        drawRingBackground()
-        drawMoonBackground()
+        planet.drawEarthBackground()
+        planet.drawRingBackground()
+        planet.drawMoonBackground()
 
         // This draws and updates the player position
         player.update(deltaTime)
