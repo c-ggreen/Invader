@@ -297,7 +297,7 @@ let planet = new Planet()
             aliens.push(new Alien())
         }, 300)
     }
-    spawnAliens() //remember to call function so it actually works
+     //NOTE: THE FUNCTION IS CALLED INSIDE THE START SCREEN EVENT LISTENER
     // ALIEN CREATION END-------------------------------------------
 
 
@@ -484,8 +484,6 @@ let planet = new Planet()
                         score+=25
                         // setting the innerHTML of the scoreNumber in html
                         scoreNumber.innerHTML = score
-                        
-
                     }})})
              // Collision Detection End
 
@@ -503,12 +501,15 @@ let planet = new Planet()
 
 // GAME LOOP END------------------------------------------------
 
+// ---gameLoop call and spawnAliens function event listener---
 // Is supposed to be a conditional that starts game loop but only if the length of the aliens array is 0 but for some reason the event is always live.
+// Starts the spawnAliens function just fine.
 if(aliens.length === 0){
     addEventListener('keydown', event =>{
         // alert(event.key)
         switch(event.key){
             case '1': gameLoop();
+                      spawnAliens();
             break;
         }
     })
