@@ -301,9 +301,9 @@ let planet = new Planet()
     // ALIEN CREATION END-------------------------------------------
 
 
-    // WIN/LOSS SCREEN START----------------------------------------
-    // This is the class that houses the Win and Loss Screen functions that will be called when the conditionals they are housed in inside of the gameLoop are met.
-        class EndGameScreen {
+    // SCREEN START----------------------------------------
+    // This is the class that houses the Screen and their functions that will be called when the conditionals they are housed in inside of the gameLoop are met.
+        class GameScreen {
             constructor() {
                 this.width = screenWidth;
                 this.height= screenHeight;
@@ -332,10 +332,25 @@ let planet = new Planet()
                     ctx.textAlign = "center"
                     ctx.fillText("WINNER!, Press [ENTER] to Play Again.", screenWidth/2, screenHeight/2)
                 }
+                drawStart(){
+                    ctx.fillStyle = 'white'
+                    ctx.fillRect(this.x, this.y, this.width, this.height)
+                    ctx.fill()
+
+                    ctx.font = "6em Monospace"
+                    ctx.fillStyle = "black"
+                    ctx.textAlign = "center"
+                    ctx.fillText("INVADER!", screenWidth/2, screenHeight/2)
+
+                    ctx.font = "2em Monospace"
+                    ctx.fillText("Press [1] to Start", screenWidth/2, screenHeight/2+50)
+                }
         }
-        let defeatScreen = new EndGameScreen()
-        let winnerScreen = new EndGameScreen()
-    // WIN/LOSS SCREEN END------------------------------------------
+        let defeatScreen = new GameScreen()
+        let winnerScreen = new GameScreen()
+        let startScreen = new GameScreen()
+        startScreen.drawStart()
+    // SCREEN END------------------------------------------
 
 
 // INPUT HANDLERS START-----------------------------------------
@@ -458,17 +473,20 @@ let planet = new Planet()
                     missile.position.y < alien.position.y + alien.height*.8 &&
                     missile.position.y + missile.height > alien.position.y
                     ) 
-                    {   // score increase each time alien is hit
-                        score+=25
-                        // setting the innerHTML of the scoreNumber in html
-                        scoreNumber.innerHTML = score
-
+                    {   
                         // setTimeout gets rid of alienIcon flash that occurs when they are deleted
                         setTimeout(()=>{
                             // deletes the missile and alien if they touch, add the 1 so that it only deletes the affected alien after each collision
                             aliens.splice(index,1)
                             missiles.splice(missileIndex,1)
-                        },0)}})})
+                        },0)
+                        // score increase each time alien is hit
+                        score+=25
+                        // setting the innerHTML of the scoreNumber in html
+                        scoreNumber.innerHTML = score
+                        
+
+                    }})})
              // Collision Detection End
 
         // This IF statement is what tracks the score requirement for the game Win situation to be met. Upon meeting the requirement, the animation frame is cancelled, the game stops, and the Win screen is displayed. An event listener for a 'keydown' on the 'Enter' key is added so the user can press 'Enter' to reload the page to play again. This event listener is only operable when the score requirement is met.
@@ -481,8 +499,19 @@ let planet = new Planet()
                         // location.reload() reloads the page/window/current URL
                         location.reload()
                 }})}}
-    gameLoop()
+    // gameLoop()
 
 // GAME LOOP END------------------------------------------------
+
+// Is supposed to be a conditional that starts game loop but only if the length of the aliens array is 0 but for some reason the event is always live.
+if(aliens.length === 0){
+    addEventListener('keydown', event =>{
+        // alert(event.key)
+        switch(event.key){
+            case '1': gameLoop();
+            break;
+        }
+    })
+}
 
 
