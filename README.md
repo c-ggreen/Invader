@@ -19,7 +19,6 @@ To tackle a project such as this I focused on framing out the practices I would 
 ## Unsolved Problems
 
 My unresolved issues are the following:
- - There isn't a start screen upon initial load, the program immediately runs.
  - After satisfying either the winning or losing condition, users aren't able to "Start Over" unless they reload the webpage.
  - Users cannot pause the game.
  - There are no gradual levels.
@@ -29,5 +28,7 @@ My unresolved issues are the following:
  I fully intend to periodically update this project and fix any unresolved issues in order to make it as playable as possible. If you'd liked to keep track of my progress, feel free to visit my [GitHub Pages](https://c-ggreen.github.io/Invader/)
 
  # Patch Notes
+ ### v1.2
+ - Start screen added.
  ### v1.1
  - Users can now use the "Enter" key to reload/refresh screen after win or loss condition is met.
