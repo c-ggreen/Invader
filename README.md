@@ -25,7 +25,7 @@ My unresolved issues are the following:
 
  # Closing Remarks
 
- I fully intend to periodically update this project and fix any unresolved issues in order to make it as playable as possible. If you'd liked to keep track of my progress, feel free to visit my [GitHub Pages](https://c-ggreen.github.io/Invader/)
+ I fully intend to periodically update this project and fix any unresolved issues in order to make it as playable as possible. If you'd liked to keep track of my progress, feel free to visit my [Heroku](https://invader-cg.herokuapp.com/)
 
  # Patch Notes
  ### v1.2
